@@ -1,12 +1,12 @@
 
-算法作业
-TC 代表 Time Complexity
-SC 代表 Space Complextiy
+#### 算法作业 TC 代表 Time Complexity  SC 代表 Space Complextiy
 
 
-移动零    下面四种方法 TC O(n), SC O(1)
+##### 移动零    下面四种方法 TC O(n), SC O(1)
 
-方法一:   双指针
+```java
+
+//方法一:   双指针
 public void moveZeroes(int[] nums) {
         if (null == nums || nums.length <= 0) return 0;
   		int i = 0;
@@ -19,8 +19,12 @@ public void moveZeroes(int[] nums) {
             nums[j] = 0;
         }   
 }
+```
 
-方法二: 双指针 对上一个优化
+```java
+
+
+// 方法二: 双指针 对上一个优化
 public void moveZeroes(int[] nums) {
     if (null == nums || nums.length <= 0) return 0;  
 		int i = 0;
@@ -34,8 +38,12 @@ public void moveZeroes(int[] nums) {
             }
         }
 }
+```
 
-方法三: 双指针
+```java
+
+
+// 方法三: 双指针
 public void moveZeroes(int[] nums) {
         int i = 0;
         for (int j = 0; j < nums.length; j++) {
@@ -51,8 +59,12 @@ public void swap(int[] nums, int i, int j) {
         nums[j] = nums[i] ^ nums[j];
         nums[i] = nums[i] ^ nums[j];
 }
+```
 
-方法四:覆盖 通过count值计算前面有多少个0,从而达到非0位置 思路:统计0的个数,如果count 大于0 ,就将非零元素移动到当前位置减去0元素个数的位置上,将当前位置用0填充
+```java
+
+
+// 方法四:覆盖 通过count值计算前面有多少个0,从而达到非0位置 思路:统计0的个数,如果count 大于0 ,就将非零元素移动到当前位置减去0元素个数的位置上,将当前位置用0填充
  public void moveZeroes(int[] nums) {
         int count = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -64,13 +76,15 @@ public void swap(int[] nums, int i, int j) {
             }
         }
  }
+```
 
 
+##### 两数之和 
 
-两数之和 
+```java
 
 
-方法一:暴力 TC O(n^2)  SC o(1)
+// 方法一:暴力 TC O(n^2)  SC o(1)
  public int[] twoSum(int[] nums, int target) {
         int[] resultArray = new int[2];
         for (int i = 0; i < nums.length - 1; i++) {
@@ -85,7 +99,12 @@ public void swap(int[] nums, int i, int j) {
         return resultArray;
 }
 
-方法二: TC O(n), SC O(n)
+```
+
+```java
+
+
+// 方法二: TC O(n), SC O(n)
 public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         int[] result = new int[2];
@@ -101,24 +120,36 @@ public int[] twoSum(int[] nums, int target) {
         return result;
 }
 
+```
 
+##### 合并两个有序数组
 
-合并两个有序数组
+```java
 
+/*
 须知java的arraycopy
 int nums1 = [1, 2, 3, 0, 0, 0], m = 3;
 int nums2 = [2, 5, 6], n = 3;
 System.arraycopy(src, srcPos, dest, destPos, length)
 System.arraycopy(nums2, 0, nums1, m, n)
 nums1 = [1, 2, 3, 2, 5, 6];
+*/
+```
 
-方法一:暴力 TC O((n+m)log(n+m)) SC O(1)
+```java
+
+
+// 方法一:暴力 TC O((n+m)log(n+m)) SC O(1)
 public void merge(int[] nums1, int m, int[] nums2, int n) {
 	System.arraycopy(nums2, 0, nums1, m, n);
 	Arrays.sort(nums1);
 }
+```
 
-方法二: 双指针
+```java
+
+
+// 方法二: 双指针
 public void merge(int[] nums1, int m, int[] nums2, int n) {
          int p1 = m - 1;
          int p2 = n - 1;
@@ -129,11 +160,15 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
          // 考虑p1排完后剩下p2时出现的问题   
          System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
 }
+```
 
 
 
-合并两个有序链表
-方法一: CT O(M + N) ST O(1)
+##### 合并两个有序链表
+```java
+
+
+// 方法一: CT O(M + N) ST O(1)
 public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode prehead = new ListNode(-1);
         ListNode prev = prehead;
@@ -151,9 +186,12 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         prev.next = l1 == null ? l2 : l1;
         return prehead.next;
 }
+```
+
+```java
 
 
-方法二: 递归 时间O(M+N) 空间O(M+N)递归深度
+// 方法二: 递归 时间O(M+N) 空间O(M+N)递归深度
 public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
@@ -170,4 +208,5 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
             return l2;
         }
 
-    }
+}
+```
