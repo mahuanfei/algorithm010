@@ -72,6 +72,7 @@ public void swap(int[] nums, int i, int j) {
 
 // 方法四:覆盖 通过count值计算前面有多少个0,从而达到非0位置 思路:统计0的个数,如果count 大于0 ,就将非零元素移动到当前位置减去0元素个数的位置上,将当前位置用0填充
  public void moveZeroes(int[] nums) {
+   
         int count = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == 0) {
@@ -112,12 +113,13 @@ public void swap(int[] nums, int i, int j) {
 
 // 方法二: TC O(n), SC O(n)
 public int[] twoSum(int[] nums, int target) {
+        
         Map<Integer, Integer> map = new HashMap<>();
         int[] result = new int[2];
         for (int i = 0; i < nums.length; i++) {
             int comp = target - nums[i];
             if (map.containsKey(comp)) {
-                result[0] = map.get(comp);
+                result[0] = map.get(comp);null
                 result[1] = i;
                 return result;
             }
@@ -157,6 +159,7 @@ public void merge(int[] nums1, int m, int[] nums2, int n) {
 
 // 方法二: 双指针
 public void merge(int[] nums1, int m, int[] nums2, int n) {
+        
          int p1 = m - 1;
          int p2 = n - 1;
          int p = m + n - 1;
@@ -215,4 +218,45 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         }
 
 }
+```
+
+
+##### 删除排序数组中的重复项
+```java
+ // 方法一: TC O(n) SC O(1)
+   public int removeDuplicates(int[] nums) {
+        if (null == nums || nums.length <= 0) return 0;
+        int i = 0;
+        int j = 1;
+        int length = nums.length;
+        while(j < length) {
+            if (nums[j] != nums[i]) {
+                i++;
+                nums[i] = nums[j];
+            }
+            j++;
+        }
+        return i + 1;
+    }
+```
+
+```java
+// 方法二 : TC O(n) SC O(1)
+ public int removeDuplicates(int[] nums) {
+        if (null == nums || nums.length <= 0) return 0;
+        int j = 0;
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[j]) {
+                count++;
+            }else {
+                count = 1;
+            }
+            if (count <= 2) {
+                j++;
+                nums[j] = nums[i];
+            }
+        }
+        return j + 1;
+ }
 ```
