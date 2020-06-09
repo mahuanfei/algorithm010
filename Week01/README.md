@@ -1,5 +1,6 @@
 
-#### 算法作业 TC 代表 Time Complexity  SC 代表 Space Complextiy
+#### 算法作业 
+####### TC 代表 Time Complexity  SC 代表 Space Complextiy
 
 
 ##### 移动零    下面四种方法 TC O(n), SC O(1)
@@ -29,15 +30,20 @@ public void moveZeroes(int[] nums) {
     if (null == nums || nums.length <= 0) return 0;  
 		int i = 0;
         for (int j = 0; j < nums.length; j++) {
-            if (nums[j] != 0) {		
+
+            if (nums[j] != 0) {	
+	
  	  	        if (i != j) {        
 		 	        nums[i] = nums[j];   
 	         	    nums[j] = 0;     
                  }
-                 i++;	                
+
+                 i++;
+	                
             }
         }
 }
+
 ```
 
 ```java
