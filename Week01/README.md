@@ -1,6 +1,6 @@
 
 #### 算法作业 
-####### TC 代表 Time Complexity  SC 代表 Space Complextiy
+###### TC 代表 Time Complexity  SC 代表 Space Complextiy
 
 
 ##### 移动零    下面四种方法 TC O(n), SC O(1)
