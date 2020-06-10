@@ -222,8 +222,12 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
 
 ##### 删除排序数组中的重复项
+
 ```java
- // 方法一: TC O(n) SC O(1)
+ /*
+   [1, 1, 2] 
+*/
+ // 方法一: TC O(n) SC O(1)  总是和已去重数组的最后一个对比    — 慢指针位置
    public int removeDuplicates(int[] nums) {
         if (null == nums || nums.length <= 0) return 0;
         int i = 0;
@@ -238,6 +242,21 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         }
         return i + 1;
     }
+
+```
+
+```java
+public int removeDuplicates(int[] nums) {
+    if (nums.length == 0) return 0;
+    int i = 0;
+    for (int j = 1; j < nums.length; j++) {
+        if (nums[j] != nums[i]) {
+            i++;
+            nums[i] = nums[j];      
+        }    
+    }
+    return i + 1;
+}
 ```
 
 ```java
@@ -259,4 +278,52 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         }
         return j + 1;
  }
+```
+
+```java
+// 方法三: 重复项计数法:
+/*
+k 表示最多重复次数
+ k = 1 该算法处理后 最多出现一次
+ k = 2 该算法处理后 最多出现两次
+ ...
+ k = n 该算法处理后  最多出现n次
+
+ 当k = 1时 ，可作为本题的题解
+k = 2
+[1, 1, 1, 2, 2, 3]
+和倒数第k个对比   可以实现k次重复  -- 慢指针 - k
+
+
+*/
+public int removeDuplicatesII(int[] nums) {
+    int i = 0;
+    int k = 1;
+    for (int n : nums) {
+        if (i < k || n > [i - k])
+            nums[i++] = n;
+   }
+    return i;
+}
+
+```
+
+##### 二叉树的最大深度
+```java
+public int maxDepth(TreeNode root) {
+    // terminator
+    if (null == root) {
+        return -;
+    }   
+    
+    // process current logic
+    
+    // drill down 递归计算左右子树最大高度
+    int left_height = maxDepth(root.left);
+    int right_height = maxDepth(root.right);
+
+    // restore current status 得到并返回 当前子树的最大高度
+    return Math.max(left_height, right_height) + 1;
+
+}
 ```
