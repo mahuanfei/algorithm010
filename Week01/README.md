@@ -327,3 +327,156 @@ public int maxDepth(TreeNode root) {
 
 }
 ```
+
+##### 反转链表  两两交换链表中的节点 对比
+###### 递归 TC O(n) SC O(n)
+```java
+public ListNode reverseList(ListNode head) {
+    if (null == head || null == head.next) return head;
+// 1 2 3 4   -> 1 2 4 3   node -> 4 -> 3 -> null
+    ListNode node = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return node;
+}
+
+public ListNode swapPairs(ListNode head) {
+    if (null == head || null == head.next) return head;
+    // 1 2 3 4 -> 1 2 4 3
+    ListNode firstNode = head;
+    ListNode secondNode = head.next;
+    
+    firstNode.next = swapPairs(secondNode.next);
+    secondNode.next = firstNode;
+    return secondNode;
+
+}
+```
+###### 迭代 TC O(n) SC O(1)
+```java
+public ListNode reverseList(ListNode head) {   
+    if (null == head) return head;
+    ListNode pre = null;
+    while (head != null) {
+        ListNode temp = head.next;
+        head.next = pre;
+        pre = head;
+        head = temp;
+    
+    }
+    return pre;
+}
+
+```
+```java
+public ListNode swapPairs(ListNode head) {
+     if (null == head) return head;
+     ListNode dummy = new ListNode(-1);
+    dummy.next = head;
+    ListNode pre = dummy;
+    //-1 1 2 3 4  -> -1 2 1 3 4
+    
+    while (head != null && head.next.next != null) {
+        ListNode first = head;
+        ListNode second = head.next;
+
+        pre.next = second;
+        first.next = second.next;
+        second.next = first;
+        
+        
+        pre = head;
+        head = head.next;
+    }
+    return dummy.next;
+}
+
+
+```
+##### 链表是否有环
+```java
+public boolean hasCycle(ListNode head) {
+    Set<ListNode> nodesSeen = new HashSet<>();
+    while (head != null) {
+        if (nodesSeen.contains(head)) {
+            return true;
+        } else {
+            nodesSeen.add(head);
+        }
+        head = head.next;
+    }
+    return false;
+}
+
+```
+```java
+public boolean hasCycle(ListNode head) {
+    if (head == null || head.next == null) {
+        return false;
+    }
+    ListNode slow = head;
+    ListNode fast = head.next;
+    while (slow != fast) {
+        if (fast == null || fast.next == null) {
+            return false;
+        }
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return true;
+}
+
+```
+##### k个一组翻转链表
+```java
+/*
+给你这个链表：1->2->3->4->5
+
+当 k = 2 时，应当返回: 2->1  ->4->3  ->5
+
+当 k = 3 时，应当返回: 3->2->1->4->5
+
+*/
+
+public ListNode reverseKGroup(ListNode head, int k) {
+    ListNode dummy = new ListNode(-1);
+    dummy.next = head;
+    ListNode pre = dummy;
+    ListNode end = dummy;
+    
+    while (end.next != null) {
+        for (int i = 0; i < k && end != null; i++) {
+            end = end.next;
+        }
+        if (end == null) break;
+        ListNode next = end.next;
+        ListNode start = pre.next;
+        
+        end.next = null;
+        pre.next = reverse(start);
+
+        start.next = next;
+        pre = start;
+        end = pre;
+        
+    }
+    return dummy.next;
+}
+
+public ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode  curr = head;
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = temp;
+        
+        } 
+        return pre;  
+}
+
+
+
+
+```
