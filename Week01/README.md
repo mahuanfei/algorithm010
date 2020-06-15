@@ -1,6 +1,5 @@
 
-#### 算法作业 
-###### TC 代表 Time Complexity  SC 代表 Space Complextiy
+#### 算法
 
 
 ##### 移动零    下面四种方法 TC O(n), SC O(1)
@@ -433,7 +432,8 @@ public boolean hasCycle(ListNode head) {
 给你这个链表：1->2->3->4->5
 
 当 k = 2 时，应当返回: 2->1  ->4->3  ->5
-
+作业 
+###### TC 代表 Time Complexity  SC 代表 Space Complextiy
 当 k = 3 时，应当返回: 3->2->1->4->5
 
 */
