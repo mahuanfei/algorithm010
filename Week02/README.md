@@ -133,3 +133,181 @@ public int[] threeSum(int[] nums, int target) {
 }
 
 ```
+
+#####  N叉树前序遍历
+
+```java
+// 递归: 时间复杂度O(M),M为N叉树中的子节点个数,空间复杂度为O(M),M表示节点个数
+
+
+class Node {
+	public int val;
+	public List<Node> children;
+	public Node(int val) {
+		this.val = val;
+	}
+}
+
+ List<Integer> list = new ArrayList<>();
+    public List<Integer> preorder(Node root) {
+        if (null == root) return list;
+        list.add(root.val);
+        for (Node item: root.children) {
+            preorder(item);
+        }
+        return list;
+    }
+
+```
+
+```java
+// 迭代 : 时间复杂度O(M),M为N叉树中的节点数,每个节点入栈出栈各一次,空间复杂度为O(M),M表示栈的大小
+public class Node {
+	public int val;
+	public List<Node> children;
+	public Node(int val) {
+		this.val = val;
+	}
+
+}
+
+public List<Integer> preorder(Node root) {
+	LinkedList<Node> stack = new LinkedList<>();
+	LinkedList<Integer> output = new LinkedList<>();
+	if (root == null) return output;
+
+	stack.add(root);
+	while(!stack.isEmpty()) {
+		Node node = stack.pollLast();
+		output.add(node.val);
+		Collections.reverse(node.children);
+		for (Node item: node.children) {
+			stack.add(item);
+		}
+	}
+	return output;
+}
+
+```
+
+##### 二叉树的前序遍历
+```java
+// 递归 时间O(n),每个节点都遍历一遍, 空间O(n) 节点个数
+
+public class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+	TreeNode(int val) {
+		this.val = val;
+	}
+}
+
+
+ List<Integer> list = new ArrayList<>();
+    public List<Integer> preorderTraversal(TreeNode root) {
+     
+     if (root == null) return list;
+     list.add(root.val);
+        if (root.left != null) {
+            preorderTraversal(root.left);
+        }
+        if (root.right != null) {
+            preorderTraversal(root.right);
+        }
+     return list;
+    } 
+
+
+```
+
+#####  反转字符串
+```java
+ public void reverseString(char[] s) {
+        int left = 0, right = s.length - 1;
+        while (left < right) {
+            char temp = s[left];
+            s[left++] = s[right];
+            s[right--] = temp;
+        }
+
+    }
+
+```
+
+```java
+// 迭代 时O(n),空间O(n)
+public List<Integer> preorderTraversal(TreeNode root) {
+	LinkedList<TreeNode> stack = new LinkedList<>();
+	LinkedList<Integer> output = new LinkedList<>();
+	if (root == null) return output;
+	stack.add(root);
+	while (!stack.isEmpty()) {
+		TreeNode node = stack.pollLast();
+		output.add(node.val);
+		if (node.right != null) {
+			stack.add(node.right);
+		}
+		if (node.left != null) {
+			stack.add(node.left);
+		}
+	}
+	return output;
+}
+
+```
+
+
+// 递归
+```java
+// 前序
+public static void preOrderTraversal(TreeNode head) {
+    if (head == null) {
+        return;
+    }
+    System.out.print(head.value + " ");
+    preOrderTraversal(head.left);
+    preOrderTraversal(head.right);
+}
+
+// 中序
+public static void inOrderTraversal(TreeNode head) {
+    if (head == null) {
+        return;
+    }
+  inOrderTraversal(head.left);
+    System.out.print(head.value + " ");
+    inOrderTraversal(head.right);
+}
+
+// 后序
+public static void postOrderTraversal(TreeNode head) {
+    if (head == null) {
+        return;
+    }
+    postOrderTraversal(head.left);
+    postOrderTraversal(head.right);
+    System.out.print(head.value + " ");
+}
+
+
+```
+
+
+
+#####  反转字符串二  时间复杂度O(n)
+```java
+   public String reverseStr(String s, int k) {
+        char[] strArray = s.toCharArray();
+        for (int start = 0; start < strArray.length; start+= 2 * k) {
+            int left = start;
+            int right = Math.min(start + k - 1, strArray.length - 1);
+            while (left < right) {
+                char temp = strArray[left];
+                strArray[left++] = strArray[right];
+                strArray[right--] = temp;
+            }
+        }
+        return new String(strArray);
+    }
+```
