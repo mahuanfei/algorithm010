@@ -311,3 +311,34 @@ public static void postOrderTraversal(TreeNode head) {
         return new String(strArray);
     }
 ```
+
+#### 子集
+##### 方法一: 递归 时间复杂度O(N * 2^N)生成所有子集，并复制到输出结果中 空间复杂度O(N * 2^N) 这是子集的数量
+```java
+public List<List<Integer>> subsets(int[] nums) {
+     // int[] nums = {1, 2 , 3};
+        List<List<Integer>> output = new ArrayList();
+        output.add(new ArrayList<Integer>());
+
+        for (int num : nums) {
+            List<List<Integer>> newSubsets = new ArrayList();
+            System.out.println("before output ");
+       
+            // [] -> [1]
+            //[] [1] -> [2] [1,2]
+            // [] [1] [2] [1,2]-> [3] [1,3] [2,3] [1,2,3]
+            for (List<Integer> curr : output) {
+                newSubsets.add(new ArrayList<Integer>(curr){{add(num);}});
+            }
+            System.out.println("newSubsets");
+      
+
+            for (List<Integer> curr : newSubsets) {
+                output.add(curr);
+            }
+           
+        }
+    System.out.println(output);
+    return output;
+}
+```
