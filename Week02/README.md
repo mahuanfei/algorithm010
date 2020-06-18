@@ -342,3 +342,69 @@ public List<List<Integer>> subsets(int[] nums) {
     return output;
 }
 ```
+##### 方法二: 
+```java
+ public static  List<List<Integer>> subsets() {
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> res = new ArrayList<>();
+        backtrack(0, nums, res, new ArrayList<Integer>());
+        return res;
+
+    }
+    
+    private static void backtrack(int i, int[] nums, List<List<Integer>> res, ArrayList<Integer> tmp) {
+
+        System.out.println("i = " + i ) ;
+        res.add(new ArrayList<>(tmp));
+        System.out.println("res" + res);
+
+        for (int j = i; j < nums.length; j++) {
+            tmp.add(nums[j]);
+            System.out.println("i = " + i + " j = " + j) ;
+            System.out.println("temp" + tmp);
+            backtrack(j + 1, nums, res, tmp);
+            tmp.remove(tmp.size() - 1);
+            System.out.println("i = " + i + " j = " + j + " 移除后的 temp" + tmp);
+        }
+    }
+
+/*
+i = 0
+res[[]]
+i = 0 j = 0
+temp[1]
+i = 1
+res[[], [1]]
+i = 1 j = 1
+temp[1, 2]
+i = 2
+res[[], [1], [1, 2]]
+i = 2 j = 2
+temp[1, 2, 3]
+i = 3
+res[[], [1], [1, 2], [1, 2, 3]]
+i = 2 j = 2 移除后的 temp[1, 2]
+i = 1 j = 1 移除后的 temp[1]
+i = 1 j = 2
+temp[1, 3]
+i = 3
+res[[], [1], [1, 2], [1, 2, 3], [1, 3]]
+i = 1 j = 2 移除后的 temp[1]
+i = 0 j = 0 移除后的 temp[]
+i = 0 j = 1
+temp[2]
+i = 2
+res[[], [1], [1, 2], [1, 2, 3], [1, 3], [2]]
+i = 2 j = 2
+temp[2, 3]
+i = 3
+res[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3]]
+i = 2 j = 2 移除后的 temp[2]
+i = 0 j = 1 移除后的 temp[]
+i = 0 j = 2
+temp[3]
+i = 3
+res[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+i = 0 j = 2 移除后的 temp[]
+*/
+```
