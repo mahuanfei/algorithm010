@@ -342,7 +342,7 @@ public List<List<Integer>> subsets(int[] nums) {
     return output;
 }
 ```
-##### 方法二: 
+##### 方法二: 回溯
 ```java
  public static  List<List<Integer>> subsets() {
         int[] nums = {1, 2, 3};
