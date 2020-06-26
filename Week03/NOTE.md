@@ -74,3 +74,54 @@ BST(binary search tree) :中序遍历是递增的
 最大深度来自两个地方
 1 左子树深度 + 根
 2 右子树深度 + 跟
+
+/****************分治和回溯总结****************/
+ (Divide & Conquer)分治和回溯本质上就是特殊的递归, 找重复性  重复性有最近重复项(分治,回溯),和最优重复项(动态规划);
+不论分治,递归,回溯本质都是找重复性, 分解问题, 最后组合每个子问题的结果.
+##### Python 递归代码模板
+```python
+def recursion(level, param1, param2, ...):
+	#recursion terminator
+	if level > MAX_LEVEL:
+	process_result
+	return
+	
+	# process logic in current level
+	process(level, data..)
+	
+	# drill down
+	self.recursion(level + 1, par1, ...)
+	
+	#reverse the current level status if needed
+	
+```
+
+##### 分治 代码模板
+```python
+def divide_conquer(problem, param1, param2, ...):
+
+# recursion terminator
+if problem is None:
+print_result
+return
+
+# prepare data
+data = prepare_Data(problem)
+subproblems = split_problem(problem, data)
+处理当前层逻辑:
+如果是求n的阶乘这里就是写成n * fac(n - 1),
+如果是斐波那契写成n - 1的递归结果加上n - 2的递归结果,
+如果是组合左右括号,组装左括号存在一个变量中,或者组装右括号存起来,当然要判断左右括号是否用完
+
+
+# conquer subproblems
+subresult1 = self.divide_conquer(subproblem[0], p1, ...)
+subresult1 = self.divide_conquer(subproblem[1], p1, ...)
+subresult1 = self.divide_conquer(subproblem[2], p1, ...)
+调用函数下探到下一层解决更细节的子问题
+
+# process and generate the final result
+result = process_result(subresult1, subresult2, subresult3, ...)
+
+#reverse the current level  states 
+```
