@@ -306,7 +306,7 @@ class JampGame {
            return memo[position] == .Good
        }
        let furthestPosition = min(position + nums[position], nums.count - 1)
-       for nextPosition in stride(from: position + 1, to: furthestPosition, by: 1) {
+       for nextPosition in stride(from: position + 1, through: furthestPosition, by: 1) {
            if canJumpFormPosition_dp(nextPosition, nums) {
                memo[nextPosition] = .Good
                return true
@@ -320,9 +320,9 @@ class JampGame {
  //MARK: 自底向上动态规划
    func canJumpFormBottomToUp_dp(_ nums: [Int]) -> Bool {
       
-       for i in stride(from: nums.count - 2, to: 0, by: -1) {
+       for i in stride(from: nums.count - 2, through: 0, by: -1) {
            let furthestPosition = min(i + nums[i], nums.count - 1)
-           for j in stride(from: i + 1, to: furthestPosition, by: 1) {
+           for j in stride(from: i + 1, through: furthestPosition, by: 1) {
                if memo[j] == .Good {
                    memo[i] = .Good
                    break
