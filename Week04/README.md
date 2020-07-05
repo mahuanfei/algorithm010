@@ -334,4 +334,225 @@ class JampGame {
 }
 ```
 
+###### [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
+> 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+你可以假设数组中不存在重复的元素。
+你的算法时间复杂度必须是 O(log n) 级别。
+示例 1:
+输入: nums = [4,5,6,7,0,1,2], target = 0
+输出: 4
+示例 2:
+输入: nums = [4,5,6,7,0,1,2], target = 3
+输出: -1
+
+方法一   第一种方式就是先找到有序区域，再划分的方式
+
+```swift
+ // 数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] [7, 0, 1, 2, 4, 5, 6]
+    // MARK:  先找有序区域再划分
+    func search1(_ nums: [Int], _ target: Int) -> Int {
+        if nums.isEmpty {return -1}
+        if nums.count == 1 {
+            return nums[0] == target ? 0 : -1
+        }
+        
+        var left = 0
+        var right = nums.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            if nums[mid] == target {
+                return mid
+            }
+            // 1 先找有序区域
+            // 2 再确定target所在区域
+            if nums[mid] >= nums[0] {
+                // 1 左边是有序的
+                if target >= nums[0] && target < nums[mid] {
+                    right = mid - 1 //2  目标在左边有序的部分
+                }else {
+                    left = mid + 1
+                }
+                
+            }else {
+                // 1 右边是有序的
+             
+                if nums[mid] < target && target <= nums[right] {
+                    left = mid + 1 // 2 目标在有序的部分
+                }else {
+                    right = mid - 1
+                }
+            }
+        }
+        return -1
+        
+    }
+```
+方法一    第二种方式是找到旋转的位置，然后分段去二分查找
+
+```swift
+ 
+       func search(_ nums: [Int], _ target: Int) -> Int {
+       // 找旋转点的方式, 突变点的前面是升序,突变点开始到结尾是升序包括突变点本身
+       // 所以要注意 前一个是end: rotatedIndex - 1,后一个是start: rotatedIndex
+         let rotatedIndex = findRotatedIndex(nums)
+         var result = binarySearch(nums, start: 0, end: rotatedIndex - 1, target: target)
+         if result != -1 {return result }
+         result = binarySearch(nums, start: rotatedIndex, end: nums.count - 1, target: target)
+         return result
+         
+     }
+     
+     func findRotatedIndex(_ nums: [Int]) -> Int {
+         var left = 0
+         var right = nums.count - 1
+       // 防止没有旋转的数组,即本身就是升序
+       if nums[left] < nums[right] {
+           return left
+       }
+         while left <= right {
+             let mid = left + (right - left) / 2
+             if nums[mid] > nums[mid + 1] {
+                 return mid + 1
+             }
+             if nums[mid - 1] > nums[mid] {
+                 return mid
+             }
+             if nums[mid] > nums[0] {
+                 left = mid + 1
+             }
+             if nums[mid] < nums[0] {
+                 right = mid - 1
+             }
+             
+         }
+         return left
+     }
+     
+     func binarySearch(_ nums: [Int], start: Int, end: Int, target: Int) -> Int {
+       //[0, 1, 2, 3, 4, 5]
+         var left = start, right = end
+         while (left <= right) {
+             let mid = left + (right - left) / 2
+             if nums[mid] == target {
+                 return mid
+             }else if (nums[mid] > target) {
+                 right = mid - 1
+             }else if (nums[mid] < target) {
+                 left = mid + 1
+             }
+         }
+         return -1
+     }
+```
+
+###### 应用实例 零钱兑换
+[322 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+> 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+示例 1: 输入: coins = [1, 2, 5], amount = 11
+输出: 3 
+解释: 11 = 5 + 5 + 1
+示例 2: 输入: coins = [2], amount = 3 
+输出: -1
+说明: 你可以认为每种硬币的数量是无限的。
+
+
+
+方法一
+```swift
+   func coinChange(_ coins: [Int], _ amount: Int) -> Int {
+        // 错误的原因count写为了amount最后返回的是mem[amount]因为有0所以,所以mem[amount]越界了
+        //var mem = [Int](repeating: amount + 1, count: amount) 错误
+        var mem = [Int](repeating: amount + 1, count: amount + 1)
+        mem[0] = 0
+        for i in stride(from: 1, through: amount, by: 1) {
+            // 注意这里用到第是to,记没有到达coins.count,只到达了coins.count - 1
+            for j in stride(from: 0, to: coins.count, by: 1) {
+                if coins[j] <= i {
+                    mem[i] = min(mem[i], 1 + mem[i - coins[j]])
+                }
+            }
+            
+            for coin in coins {
+                if coin <= i {
+                    mem[i] = min(mem[i], 1 + mem[i - coin])
+                }
+            }
+        }
+        return mem[amount] > amount ? -1 : mem[amount]
+    }
+    
+    func coinChange_temp(_ coins: [Int], _ amount: Int) -> Int {
+       // 错误的原因count写为了amount最后返回的是mem[amount]因为有0所以,所以mem[amount]越界了
+       //var mem = [Int](repeating: amount + 1, count: amount) 错误
+       var mem = [Int](repeating: amount + 1, count: amount + 1)
+       mem[0] = 0
+       for i in stride(from: 1, through: amount, by: 1) {
+           for coin in coins {
+               if coin <= i {
+                   mem[i] = min(mem[i], 1 + mem[i - coin])
+               }
+           }
+       }
+       return mem[amount] > amount ? -1 : mem[amount]
+   }
+  
+    
+```
+方法二: dfs 
+
+```swift
+  
+    
+    // [5, 2, 1]
+    
+    func coinChange_fast(_ coins: [Int], _ amount: Int) -> Int {
+        guard coins.count > 0 else {
+            return -1
+        }
+        let coins = coins.sorted(by: >)
+        var result = Int.max
+        let upIndex = coins.count - 1
+        
+        // [3]  2
+        func dfs(_ i: Int, _ amount: Int, _ count: Int) {
+            let currentCoin = coins[i]
+            
+            if i < upIndex {
+                var k = amount / currentCoin // 当前最大面值数
+                /*
+                 为什么k >= 0 呢,因为比如coins = [4, 1], amount = 3 显示3/4 = 0,
+                 虽然从3这个位置达不到4就还可以选择看下一个元素1能否达到4这个位置,所以可以去到k == 0,
+                 为什么count + k < result,
+                 比如coins = [5, 4, 1],amount = 5时
+                 当 i = 0, k = 1时 下探dfs(1, 5 - (1 * 5) == 0, 0 + 1),
+                 那么dfs(2, 0, 1)时 i = 2 curr = 1, i == upIndex,(ps: 这里i = 1时相等于 dfs(1, 0, 1)没有变只是i变为1进入下一层dfs(2, 0, 1))
+                 那么result = 1 + 0, 往上走,
+                 当i = 0, k = 0时, 0 + 0 < 1 ,
+                 所以dfs(1, 5, 0), curr = 4, k = 5/4 = 1,
+                 那么 1 + 0 < 1显然不符合count + k < result, 所以结束当前的while不用再dfs后面的值,因为前面已经是最小的结果了,
+            
+                 */
+                while k >= 0, (count + k) < result {
+                    dfs(i + 1,  amount - k * currentCoin, count + k)
+                    k -= 1 // 前面的k已经有了结果,再遍历比k小的看是否用到的面值最少
+                }
+            }else {
+                if amount % currentCoin == 0 {
+                    result = min(result, count + amount / currentCoin)
+                }
+                /*
+                 如果当前的i已经是数组中的最后一个元素位置,那么就要求结果,因为最后一个level再进行dfs越界,同时如果处于最后一个位置,就应该知道结果了
+                 如果当前的金额amount可以被当前面值的整除,如coins = [5] ,amount = 10, 那么result = count(到当前这一层的硬币数) + amount / coin
+                 如果当前金额amount不能被当前面值整除, 如coins = [3], amount = 2
+                 则result 还是Int.max 找不到.
+                 */
+                
+            }
+        }
+        
+        return result == Int.max ? -1 : result
+    }
+```
